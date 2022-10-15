@@ -27,14 +27,10 @@ inputs:
     default: 300
 runs:
   using: "composite"
-  container:
-    # A Docker image with Semgrep installed. Do not change this.
-    image: returntocorp/semgrep
-
   steps:
     - name: Semgrep SAST Scan
-      run: semgrep ci
-      env:
-        SEMGREP_APP_TOKEN: ${{ github.event.inputs.semgrep-app-token }}" 
-        SEMGREP_TIMEOUT: ${{ github.event.inputs.semgrep-timeout }}" 
+      run: |
+        docker run --rm -v "${PWD}:/src" -e SEMGREP_APP_TOKEN=${{ github.event.inputs.semgrep-app-token }} -e SEMGREP_TIMEOUT=${{ github.event.inputs.semgrep-timeout }} returntocorp/semgrep semgrep --config=auto
+        semgrep ci
+        
       shell: bash
