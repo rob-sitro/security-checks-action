@@ -31,6 +31,5 @@ runs:
     - name: Semgrep SAST Scan
       run: |
         docker run --rm -v "${PWD}:/src" -e SEMGREP_APP_TOKEN=${{ github.event.inputs.semgrep-app-token }} -e SEMGREP_TIMEOUT=${{ github.event.inputs.semgrep-timeout }} returntocorp/semgrep semgrep --config=auto
-        semgrep ci
         
       shell: bash
