@@ -27,10 +27,12 @@ inputs:
     default: 300
 runs:
   using: "composite"
+  container:
+    # A Docker image with Semgrep installed. Do not change this.
+    image: returntocorp/semgrep
+
   steps:
     - name: Semgrep SAST Scan
-      container:
-        image: returntocorp/semgrep
       run: semgrep ci
       env:
         SEMGREP_APP_TOKEN: ${{ github.event.inputs.semgrep-app-token }}" 
