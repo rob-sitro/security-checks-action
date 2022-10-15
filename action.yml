@@ -32,10 +32,7 @@ runs:
     anchore-scan:
       if: ${{ github.event.inputs.container-scan-flag }} == true
       name: Anchore Container Image Vulnerability Scan
-      runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@v3
-
         - name: Set up Docker Buildx
           uses: docker/setup-buildx-action@v1
 
@@ -57,14 +54,12 @@ runs:
     semgrep-scan:
       if: ${{ github.event.inputs.sast-scan-flag }} == true
       name: Semgrep SAST scan
-      runs-on: ubuntu-latest
 
       container:
       image: returntocorp/semgrep
       # Skip any PR created by dependabot to avoid permission issues:
       if: (github.actor != 'dependabot[bot]')
       steps:
-        - uses: actions/checkout@v3
         - run: semgrep ci
           env:
             # Connect to Semgrep App through your SEMGREP_APP_TOKEN.
