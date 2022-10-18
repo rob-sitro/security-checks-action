@@ -1,35 +1,37 @@
 name: 'CI Security Checks'
-description: 'A list of common open-source software security checks run as a composite Github action'
-inputs:
-  container-scan-flag:
-    description: 'Enable anchore container image scanning'
-    default: false
-  container-dockerfile:
-    description: 'Location of your dockerfile'
-    default: ""
-  anchore-results-file:
-    description: 'The Anchore results file name and path'
-    default: "results.json"
-  anchore-severity-threshold:
-    description: 'The Ancshore severitiy threshold you want to include in your report'
-    default: "medium"
-  anchore-fail-build:
-    description: 'Fail build if severity threshold vulnerabilities are found'
-    default: false
-  sast-scan-flag:
-    description: 'Enable Semgrep SAST scanning'
-    default: true
-  semgrep-app-token:
-    description: 'You semgrep APP token taken from Semgrep App > Settings'
-    default: ""
-  semgrep-timeout:
-    description: 'Scan timeout in seconds'
-    default: 300
-runs:
-  using: "composite"
-  steps:
-    - name: Semgrep SAST Scan
-      run: |
-        docker run --rm -v "${PWD}:/src" -e SEMGREP_APP_TOKEN=${{ github.event.inputs.semgrep-app-token }} -e SEMGREP_TIMEOUT=${{ github.event.inputs.semgrep-timeout }} returntocorp/semgrep semgrep --config=auto
-        
-      shell: bash
+description: 'A list software security checks run as a composite Github action'
+
+on:
+  workflow_call:
+    inputs:
+      sast-scan-flag:
+        description: 'Enable Semgrep SAST scanning'
+        default: true
+      semgrep-timeout:
+        description: 'Scan timeout in seconds'
+        default: 300
+      dependency-license-check-flag:
+        description: 'Enable depedency licence check'
+        default: true
+      dependency-check-config-file:
+        description: 'The name and path of your dependency check configuration file'
+        default: "dependency-check-config.yml"
+      repository:
+        description: 'The name of the source repository'
+        default: ""
+    secrets:
+      semgrep-app-token:
+        description: 'You semgrep APP token taken from Semgrep App > Settings'
+        required: true
+jobs:
+  semgrep:
+    if: ${{ github.event.inputs.sast-scan-flag }} == true
+    name: Semgrep SAST Scan
+    runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep
+    # Skip any PR created by dependabot to avoid permission issues
+    if: (github.actor != 'dependabot[bot]')
+      - run: semgrep ci
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.semgrep-app-token }}
