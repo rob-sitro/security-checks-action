@@ -33,5 +33,5 @@ jobs:
             echo "#### working dir! ###"
             echo `ls`
             echo "### CD TO DEP ACTION ####"
-            cd `dependency-track-gh-action`
+            cd dependency-track-gh-action
             echo `ls`
