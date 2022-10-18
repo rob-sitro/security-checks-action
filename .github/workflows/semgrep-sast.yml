@@ -11,7 +11,7 @@ on:
       semgrep-app-token:
         required: true
 jobs:
-  scan:
+  run:
     runs-on: ubuntu-latest
     container:
       image: returntocorp/semgrep

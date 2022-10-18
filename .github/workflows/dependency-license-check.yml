@@ -8,7 +8,7 @@ on:
         type: string
 
 jobs:
-  check:
+  run:
     runs-on: ubuntu-latest
     if: (github.actor != 'dependabot[bot]')
     steps:
@@ -28,6 +28,12 @@ jobs:
         env:
           DEPENDENCY_CHECK_CONFIG: ${{ github.event.inputs.dependency-check-config-file }}
         run: | 
+            echo "#### working dir! ###"
+            echo `ls`
+            echo "########"
+            echo ${{ github.event.repository.name }}
+            echo "repo name"
+            echo ####
             pip install -r dependency-track-gh-action/requirements.txt
             python dependency-track-gh-action/app/main.py
             cat /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}/job_summary.md >> $GITHUB_STEP_SUMMARY
