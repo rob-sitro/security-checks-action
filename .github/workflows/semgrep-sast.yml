@@ -1,5 +1,4 @@
 name: 'CI Security Checks'
-description: 'A list software security checks run as a composite Github action'
 
 on:
   workflow_call:
