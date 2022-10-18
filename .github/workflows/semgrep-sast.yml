@@ -1,4 +1,4 @@
-name: 'CI Security Checks'
+name: 'Semgrep SAST Scan'
 
 on:
   workflow_call:
@@ -9,10 +9,9 @@ on:
         default: 300
     secrets:
       semgrep-app-token:
-        required: false
+        required: true
 jobs:
   semgrep:
-    name: Semgrep SAST Scan
     runs-on: ubuntu-latest
     container:
       image: returntocorp/semgrep
