@@ -6,6 +6,7 @@ on:
       dependency-check-config-file:
         required: true
         type: string
+        default: "dependency-check-config.yml"
 
 jobs:
   run:
@@ -27,7 +28,7 @@ jobs:
               
       - name: Run dependency license check
         env:
-          DEPENDENCY_CHECK_CONFIG: ${{ github.event.inputs.dependency-check-config-file }}
+          DEPENDENCY_CHECK_CONFIG: ${{ inputs.dependency-check-config.yml }}
         run: | 
             pip install -r dependency-track-gh-action/requirements.txt
             echo `ls`
