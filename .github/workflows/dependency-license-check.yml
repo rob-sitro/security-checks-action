@@ -30,7 +30,6 @@ jobs:
           DEPENDENCY_CHECK_CONFIG: ${{ github.event.inputs.dependency-check-config-file }}
         run: | 
             pip install -r dependency-track-gh-action/requirements.txt
-            python dependency-track-gh-action/app/main.py
             echo `ls`
             cd dependency-track-gh-action
             echo `ls`
