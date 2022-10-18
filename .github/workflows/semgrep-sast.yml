@@ -3,13 +3,6 @@ description: 'A list software security checks run as a composite Github action'
 
 on:
   workflow_call:
-    inputs:
-      sast-scan-flag:
-        description: 'Enable Semgrep SAST scanning'
-        default: true
-      semgrep-timeout:
-        description: 'Scan timeout in seconds'
-        default: 300
     secrets:
       semgrep-app-token:
         description: 'You semgrep APP token taken from Semgrep App > Settings'
