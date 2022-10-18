@@ -13,7 +13,7 @@ jobs:
     if: (github.actor != 'dependabot[bot]')
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Checkout dependency license check repository
         uses: chronograph-pe/checkout@v3
         with:
@@ -32,16 +32,6 @@ jobs:
         run: | 
             echo "#### working dir! ###"
             echo `ls`
-            echo "########"
-            echo ${{ github.event.repository.name }}
-            echo "repo name"
-            echo ####
-            pip install -r dependency-track-gh-action/requirements.txt
-            python dependency-track-gh-action/app/main.py
-            cat /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}/job_summary.md >> $GITHUB_STEP_SUMMARY
-            rm -rf dependency-track-gh-action
-            rm -rf /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}/job_summary.md
-            git pull origin ${{github.ref}} --ff-only
-
-      - name: Commit license data to this branch
-        uses: chronograph-pe/git-auto-commit-action@v4
+            echo "### CD TO DEP ACTION ####"
+            cd `dependency-track-gh-action`
+            echo `ls`
