@@ -25,7 +25,6 @@ on:
         required: true
 jobs:
   semgrep:
-    if: ${{ github.event.inputs.sast-scan-flag }} == true
     name: Semgrep SAST Scan
     runs-on: ubuntu-latest
     container:
